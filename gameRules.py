@@ -1,5 +1,4 @@
-Blackjack, by GodLess https://github.com/1GodLess5/100-Days-of-Code-Python/tree/master/day-11-CAPSTONE-PROJECT-BLACKJACK
-
+rules = '''
     RULES:
       Try to get as close to 21 without going over.
       Kings, Queens, and Jacks are worth 10 points.
@@ -13,3 +12,4 @@ Blackjack, by GodLess https://github.com/1GodLess5/100-Days-of-Code-Python/tree/
       (D)ouble to increase your bet on your first play and must hit exactly one more time before standing.
       (F) to surrender, half of your bet will be returned.
       (E)ven money in case you have Blackjack and dealer's first card i Ace. You will be paid 1:1 instead of 1:2 in case of winning.
+'''
