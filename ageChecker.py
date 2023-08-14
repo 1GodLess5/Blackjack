@@ -12,11 +12,17 @@ def underAge(isUnderage: bool):
         print("You have successfully verified your age, feel free to enjoy a game of Blackjack with my Python program!")
         print("You will be redirected to the rules section in 5 seconds.")
         print("Waiting...")
-        time.sleep(5)
+        time.sleep(7)
 
 def main():
     os.system("clear")
     functions.gameLogo()
+
+    print(functions.formattingConsole("BOLD, YELLOW"))
+    print("Welcome to the game! To ensure responsible gaming, please enter your birthday to verify that you're 18 years or older,\n"
+          "as the game could potentially be addictive. Your well-being is important to us.")
+    print(functions.formattingConsole("END"))
+
     dateToday = str(date.today())
 
     listOfDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -29,7 +35,9 @@ def main():
             monthOfBirth = int(input("Enter month of birth:\t"))
 
             if monthOfBirth < 1 or monthOfBirth > 13:
+                print(functions.formattingConsole("BOLD, RED"))
                 print("There are only 12 months, please try your input again.")
+                print(functions.formattingConsole("END"))
                 continue
 
             dayOfBirth = int(input("Enter day of birth:\t"))
@@ -79,7 +87,6 @@ def main():
 
     for i in range(len(checkingDate)):
         checkingDate[i] = int(checkingDate[i])
-    print(checkingDate[0] - yearOfBirth)
     if checkingDate[0] - yearOfBirth < 18:
         underAge(True)
     elif checkingDate[0] - yearOfBirth == 18:

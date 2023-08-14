@@ -25,13 +25,14 @@ def gameLogo():
 
 def rulesConfirmation():
     while True:
+        os.system("clear")
         gameLogo()
 
         print(formattingConsole("BOLD, RED"))
         print(gameRules.rules)
         print(formattingConsole("END"))
 
-        doesAgree = input("Do you agree to the rules?\t(y)es or (n)o:\t").lower()
+        doesAgree = input("Do you agree to the rules?\n(y)es or (n)o:\t").lower()
 
         if doesAgree[0] == "y":
             print(formattingConsole("BOLD, GREEN"))
@@ -39,13 +40,14 @@ def rulesConfirmation():
             print("The game will start in 5 seconds...")
             print(formattingConsole("END"))
             time.sleep(5)
+
+            break
         elif doesAgree[0] == "n":
             print(formattingConsole("BOLD, RED"))
             exit("I'm sorry, but in order to play the blackjack Python game, you must agree to and follow the rules provided.")
         else:
             print("You have made a mistake in your answer, please try it again.")
             time.sleep(3)
-            os.system("clear")
 
 
 

@@ -11,5 +11,5 @@ rules = '''
       (S)tand to stop taking cards.
       (D)ouble to increase your bet on your first play and must hit exactly one more time before standing.
       (F) to surrender, half of your bet will be returned.
-      (E)ven money in case you have Blackjack and dealer's first card i Ace. You will be paid 1:1 instead of 1:2 in case of winning.
+      (E)ven money in case you have Blackjack and dealer's first card is Ace. You will be paid 1:1 instead of 1:2 in case of winning.
 '''
