@@ -66,6 +66,8 @@ def formattingConsole(format: str):
 
     return eval(finalString)
 
+def enterBalance():
+    global usersBalance
 
 
 
