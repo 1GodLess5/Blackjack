@@ -9,7 +9,7 @@ def underAge(isUnderage: bool):
     else:
         print(functions.formattingConsole("BOLD, GREEN"))
         print("You have successfully verified your age, feel free to enjoy a game of Blackjack with my Python program!")
-        print("The game will start in 5 seconds.")
+        print("You will be redirected to the rules section in 5 seconds.")
         print("Waiting...")
         time.sleep(5)
 
