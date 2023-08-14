@@ -11,6 +11,11 @@ def cardsRender(cardToDraw: str):
     return renderedCard
 
 
+def firstScreen():
+    gameLogo()
+    input("Press any key to continue.")
+
+
 def gameLogo():
     print(formattingConsole("BLUE"))
     print("Blackjack, by GodLess https://github.com/1GodLess5/Blackjack")

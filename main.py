@@ -1,7 +1,8 @@
 import functions
 import components
+import ageChecker
 
-functions.gameStart()
+
 
 
 
