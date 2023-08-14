@@ -1,3 +1,4 @@
+import os
 import time
 from datetime import date
 import functions
@@ -14,6 +15,8 @@ def underAge(isUnderage: bool):
         time.sleep(5)
 
 def main():
+    os.system("clear")
+    functions.gameLogo()
     dateToday = str(date.today())
 
     listOfDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

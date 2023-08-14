@@ -1,5 +1,8 @@
 import random
 import components
+import gameRules
+import time
+import os
 
 def cardsRender(cardToDraw: str):
     cardShape = components.cardShapes[random.randint(0, 7)]
@@ -8,31 +11,37 @@ def cardsRender(cardToDraw: str):
     return renderedCard
 
 
-def gameStart():
+def gameLogo():
     print(formattingConsole("BLUE"))
-    print("Blackjack, by GodLess https://github.com/1GodLess5/100-Days-of-Code-Python/tree/master/day-11-CAPSTONE-PROJECT-BLACKJACK")
+    print("Blackjack, by GodLess https://github.com/1GodLess5/Blackjack")
     print(components.logo)
     print(formattingConsole("END"))
 
 
+def rulesConfirmation():
+    while True:
+        gameLogo()
 
-    print(components.Color.BOLD + components.Color.RED)
+        print(formattingConsole("BOLD, RED"))
+        print(gameRules.rules)
+        print(formattingConsole("END"))
 
-    print('''
-    RULES:
-      Try to get as close to 21 without going over.
-      Kings, Queens, and Jacks are worth 10 points.
-      Aces are worth 1 or 11 points.
-      Cards 2 to 10 are worth their face value.
-      The dealer stops hitting at 17.
+        doesAgree = input("Do you agree to the rules?\t(y)es or (n)o:\t").lower()
 
-    COMMANDS TO CONTROL THE GAME:
-      (H)it to take another card.
-      (S)tand to stop taking cards.
-      (D)ouble to increase your bet on your first play and must hit exactly one more time before standing.
-      (F) to surrender, half of your bet will be returned.
-      (E)ven money in case you have Blackjack and dealer's first card is Ace. You will be paid 1:1 instead of 1:2 in case of winning.
-    ''')
+        if doesAgree[0] == "y":
+            print(formattingConsole("BOLD, GREEN"))
+            print("Welcome aboard! Get ready to dive into the exciting world of blackjack with our Python game. Enjoy and good luck!")
+            print("The game will start in 5 seconds...")
+            print(formattingConsole("END"))
+            time.sleep(5)
+        elif doesAgree[0] == "n":
+            print(formattingConsole("BOLD, RED"))
+            exit("I'm sorry, but in order to play the blackjack Python game, you must agree to and follow the rules provided.")
+        else:
+            print("You have made a mistake in your answer, please try it again.")
+            time.sleep(3)
+            os.system("clear")
+
 
 
 def formattingConsole(format: str):
