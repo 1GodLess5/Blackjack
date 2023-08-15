@@ -2,11 +2,19 @@ import functions
 import components
 import ageChecker
 
+# welcoming screen
 functions.firstScreen()
+
+# verifying user's age
 ageChecker.main()
+
+# user's agreement to the rules
 functions.rulesConfirmation()
 
-# TODO FINISH enterBalance() from functions.py
+# getting user's balance to play with
+functions.enterBalance()
+
+
 
 
 
