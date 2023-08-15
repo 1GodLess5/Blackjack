@@ -3,11 +3,20 @@ import components
 import gameRules
 import time
 import os
+import random
 
-def cardsRender(cardToDraw: str):
-    cardShape = components.cardShapes[random.randint(0, 7)]
-    renderedCard = f''' ___\n|{cardToDraw}  |\n| {cardShape} |\n|__{cardToDraw}|'''
+def cardsRender(cardToDraw: str, numberOfcards: int):
+    cards = cardToDraw.split(", ")
+    print(cards)
+    renderedCard = ''''''
 
+    # TODO, YOU FINISHED HERE, HAVE TO THINK ABOUT HOW YOU GONNA RENDER THE CARDS IN ONE LINE, INSTEAD OF EACH CARD ON ITS LINE
+    if cards[0] == "blank":
+        for i in range(numberOfcards):
+            renderedCard += f''' ___'''
+    # cardShape = components.cardShapes[random.randint(0, 7)]
+    # renderedCard = f''' ___\n|{cardToDraw}  |\n| {cardShape} |\n|__{cardToDraw}|'''
+    print(renderedCard)
     return renderedCard
 
 
@@ -98,16 +107,60 @@ def enterBalance():
     return usersBalance
 
 def keyHint():
-    print("(H)it\t(S)tand\t(D)ouble\t(F) to surrender\t(E)ven money")
+    print("Available actions: (H)it\t(S)tand\t\t(D)ouble\t(F) to surrender\t(E)ven money")
 
+def usersBet(usersBalance: float):
+    print("The lowest bet at this table is 25€.")
+    print(f"Your remaining balance is {usersBalance}€.")
 
+    while True:
+        try:
+            bet = float(input("How much would you like to bet?\t"))
+            if bet < 25:
+                print(formattingConsole("BOLD, RED"))
+                print("The lowest bet at this table is 25€.")
+                print(formattingConsole("END"))
 
+                continue
+            elif bet > usersBalance:
+                print(formattingConsole("BOLD, RED"))
+                print("Your balance is lower than your bet.")
+                print(formattingConsole("END"))
 
+                continue
+            break
+        except ValueError:
+            print(formattingConsole("BOLD, RED"))
+            print("You have entered invalid input.")
+            print("Please try it again.")
+            print(formattingConsole("END"))
 
+    return bet
 
+def dealingCards(usersBet: float):
+    usersHand = []
+    dealersHand = []
 
+    os.system("clear")
+    gameLogo()
 
+    print(formattingConsole("YELLOW"))
+    print(f"Your bet: {usersBet}€")
+    keyHint()
+    print(formattingConsole("END"))
 
+    for i in range(2):
+        cardUser = random.choice(list(components.cards.keys()))
+        usersHand.append(cardUser)
+
+        cardDealer = random.choice(list(components.cards.keys()))
+        dealersHand.append(cardDealer)
+
+    print("Dealer: ???")
+    # TODO: FINISH THIS FUNCTION, BUT FIRST FINISH THE RENDERING :)
+
+cardsRender("blank, 1", 2)
+# dealingCards(150)
 
 
 
