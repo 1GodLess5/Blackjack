@@ -97,7 +97,8 @@ def enterBalance():
 
     return usersBalance
 
-
+def keyHint():
+    print("(H)it\t(S)tand\t(D)ouble\t(F) to surrender\t(E)ven money")
 
 
 
