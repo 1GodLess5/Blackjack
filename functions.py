@@ -67,12 +67,35 @@ def formattingConsole(format: str):
     return eval(finalString)
 
 def enterBalance():
-    global usersBalance
+    usersBalance = 0
 
+    os.system("clear")
+    gameLogo()
 
+    while True:
+        try:
+            usersBalance = float(input("Enter your balance in €:\t"))
 
+            if usersBalance < 25:
+                print(formattingConsole("BOLD, RED"))
+                print("Sorry, but the lowest bet is 25 euro.")
+                print(formattingConsole("END"))
 
+                continue
+            else:
+                print(formattingConsole("BOLD, GREEN"))
+                print(f"You have successfully topped up your balance to {usersBalance}€.")
+                print("The game will start shortly...")
+                print(formattingConsole("END"))
+                time.sleep(5)
 
+            break
+        except ValueError:
+            print(formattingConsole("BOLD, RED"))
+            print("You have entered invalid input.\tPlease try it again.")
+            print(formattingConsole("END"))
+
+    return usersBalance
 
 
 
