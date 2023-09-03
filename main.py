@@ -3,8 +3,7 @@ import components
 import ageChecker
 
 
-# TODO 1) cardsRender(cardToDraw: str, numberOfcards: int) -> FINISH THIS FUNCTION
-# TODO 2) dealingCards()
+# TODO 1) dealingCards()
 
 
 # welcoming screen
