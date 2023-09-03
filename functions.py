@@ -5,52 +5,38 @@ import time
 import os
 import random
 
-def cardsRender(cardToDraw: str, numberOfcards: int):
+def cardsRender(cardToDraw: str):
     cards = cardToDraw.split(", ")
     # rndrCards stands for rendered
     rndrCards = []
 
+    # rendering card by card and adding it to rndrCards[]
     for i in range(len(cards)):
         if cards[i] == "blank":
             rndrCards.append(components.blankCard)
         else:
             cardShape = components.cardShapes[random.randint(0, 7)]
-            renderedCard = f''' ___\n|{cards[i]}  |\n| {cardShape} |\n|__{cards[i]}|'''
+            renderedCard = f''' ___ \n|{cards[i]}  |\n| {cardShape} |\n|__{cards[i]}|'''
             rndrCards.append(renderedCard)
 
+    # starting and finishing characters before and after \n
+    startChars = [0, 6, 12, 18]
+    finishChars = [4, 10, 16, 22]
 
+    lines = []
+    # transferring single cards row by row to one single row
+    for i in range(4):
+        line = ""
+        for k in range(len(cards)):
+            line += rndrCards[k][startChars[i]:finishChars[i] + 1]
+            line += " "
+        line += "\n"
+        lines.append(line)
 
+    # changing single lines[] list to one final string
+    finalCards = ''.join(lines)
 
-
-    return rndrCards
-
-
-    #
-    #
-    # renderedCard = ''''''
-    # j = 0
-    #
-    # # TODO, YOU FINISHED HERE, HAVE TO THINK ABOUT HOW YOU GONNA RENDER THE CARDS IN ONE LINE, INSTEAD OF EACH CARD ON ITS LINE
-    # if cards[0] == "blank":
-    #     for i in range(numberOfcards):
-    #         renderedCard += f''' ___  '''
-    #     renderedCard += "\n"
-    #     for i in range(numberOfcards):
-    #         if i == 0:
-    #             renderedCard += "|## |"
-    #         else:
-    #             renderedCard += f" |{cards[i]}  |"
-    #     renderedCard += "\n"
-    #     for i in range(numberOfcards):
-    #         if i == 0:
-    #             renderedCard += "|###|"
-    #         else:
-    #             renderedCard += f""
-    #
-    # # cardShape = components.cardShapes[random.randint(0, 7)]
-    # # renderedCard = f''' ___\n|{cardToDraw}  |\n| {cardShape} |\n|__{cardToDraw}|'''
-    # print(renderedCard)
-    # return renderedCard
+    return finalCards
 
 
 def firstScreen():
@@ -191,12 +177,3 @@ def dealingCards(usersBet: float):
 
     print("Dealer: ???")
     # TODO: FINISH THIS FUNCTION, BUT FIRST FINISH THE RENDERING :)
-
-printing = cardsRender("blank, 2, 5, J, K", 5)
-
-for i in range(len(printing)):
-    print(printing[i])
-# dealingCards(150)
-
-
-
