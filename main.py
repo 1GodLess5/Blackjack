@@ -5,6 +5,7 @@ import dealingCards
 
 # TODO 1) finish usersFunctionality.py, then finish dealingCards.py
 # TODO 2) dont forget to look at the bottom of dealingCards.py to see the rest of TODO's
+# TODO 3) dont forget to merge the branch dealingCards with main, when finished
 
 # welcoming screen
 # functions.firstScreen()
