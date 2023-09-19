@@ -12,7 +12,6 @@ def dealingCards(usersBet: float):
 
     print(functions.formattingConsole("YELLOW"))
     print(f"Your bet: {usersBet}€")
-    functions.keyHint()
     print(functions.formattingConsole("END"))
 
     numberOfDrawing = 2
@@ -48,7 +47,7 @@ def dealingCards(usersBet: float):
                             cardsSum += 1
                         else:
                             cardsSum += 11
-            # this one will be assigned twice, but as this for with 'j' will go twice, the second one will be for dealer
+            # this one will be assigned twice, but as this for loop with 'j' will go twice, the second one will be for dealer
             dealersSum = cardsSum
 
         print(f"Users sum = {usersSum}")
@@ -58,4 +57,9 @@ def dealingCards(usersBet: float):
         print(functions.cardsRender("blank, " + str(dealersHand[0])))
         print(f"You: {usersSum}")
         print(functions.cardsRender(str(usersHand[0]) + ", " + str(usersHand[1])))
+
+        functions.keyHint()
+        # TODO 1: ADD usersFunctionality() here
+        # TODO 2: change value of numberOfDrawing to 1, think how you will divide the drawing between user and dealer as
+        # TODO    dealer has different rules
         break
