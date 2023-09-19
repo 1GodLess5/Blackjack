@@ -137,7 +137,9 @@ def enterBalance():
 
 
 def keyHint():
+    print(formattingConsole("YELLOW"))
     print("Available actions: (H)it\t(S)tand\t\t(D)ouble\t(F) to surrender\t(E)ven money")
+    print(formattingConsole("END"))
 
 
 def usersBet(usersBalance: float):
