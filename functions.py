@@ -6,6 +6,7 @@ import os
 import random
 
 def cardsRender(cardToDraw: str):
+    # splitting string of wanted drawn cards to list
     cards = cardToDraw.split(", ")
     # rndrCards stands for rendered
     rndrCards = []
@@ -20,18 +21,22 @@ def cardsRender(cardToDraw: str):
             rndrCards.append(renderedCard)
 
     # starting and finishing characters before and after \n
-    startChars = [0, 6, 12, 18]
-    finishChars = [4, 10, 16, 22]
+    startChar = 0   # 6, 12, 18]
+    finishChar = 4  # 10, 16, 22]
 
     lines = []
     # transferring single cards row by row to one single row
     for i in range(4):
         line = ""
+
         for k in range(len(cards)):
-            line += rndrCards[k][startChars[i]:finishChars[i] + 1]
+            line += rndrCards[k][startChar:finishChar + 1]
             line += " "
+
         line += "\n"
         lines.append(line)
+        startChar += 6
+        finishChar += 6
 
     # changing single lines[] list to one final string
     finalCards = ''.join(lines)
@@ -177,3 +182,4 @@ def dealingCards(usersBet: float):
 
     print("Dealer: ???")
     # TODO: FINISH THIS FUNCTION, BUT FIRST FINISH THE RENDERING :)
+
