@@ -3,8 +3,8 @@ import components
 import ageChecker
 import dealingCards
 
-# TODO 1) dealingCards.py()
-
+# TODO 1) finish usersFunctionality.py, then finish dealingCards.py
+# TODO 2) dont forget to look at the bottom of dealingCards.py to see the rest of TODO's
 
 # welcoming screen
 # functions.firstScreen()
@@ -17,7 +17,8 @@ import dealingCards
 # usersBalance = functions.enterBalance()
 usersBalance = 500
 # getting user's bet for this round
-usersBet = functions.usersBet(usersBalance)
+# usersBet = functions.usersBet(usersBalance)
+usersBet = 25
 dealingCards.dealingCards(usersBet)
 
 
