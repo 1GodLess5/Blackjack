@@ -5,6 +5,7 @@ import time
 import os
 import random
 
+
 def cardsRender(cardToDraw: str):
     # splitting string of wanted drawn cards to list
     cards = cardToDraw.split(", ")
@@ -83,7 +84,6 @@ def rulesConfirmation():
             time.sleep(3)
 
 
-
 def formattingConsole(format: str):
     listOfRequirements = format.split(", ")
     counter = 0
@@ -98,6 +98,7 @@ def formattingConsole(format: str):
         counter += 1
 
     return eval(finalString)
+
 
 def enterBalance():
     usersBalance = 0
@@ -130,8 +131,10 @@ def enterBalance():
 
     return usersBalance
 
+
 def keyHint():
     print("Available actions: (H)it\t(S)tand\t\t(D)ouble\t(F) to surrender\t(E)ven money")
+
 
 def usersBet(usersBalance: float):
     print("The lowest bet at this table is 25€.")
@@ -160,26 +163,4 @@ def usersBet(usersBalance: float):
             print(formattingConsole("END"))
 
     return bet
-
-def dealingCards(usersBet: float):
-    usersHand = []
-    dealersHand = []
-
-    os.system("clear")
-    gameLogo()
-
-    print(formattingConsole("YELLOW"))
-    print(f"Your bet: {usersBet}€")
-    keyHint()
-    print(formattingConsole("END"))
-
-    for i in range(2):
-        cardUser = random.choice(list(components.cards.keys()))
-        usersHand.append(cardUser)
-
-        cardDealer = random.choice(list(components.cards.keys()))
-        dealersHand.append(cardDealer)
-
-    print("Dealer: ???")
-    # TODO: FINISH THIS FUNCTION, BUT FIRST FINISH THE RENDERING :)
 
