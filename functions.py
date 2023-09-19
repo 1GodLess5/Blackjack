@@ -16,6 +16,10 @@ def cardsRender(cardToDraw: str):
     for i in range(len(cards)):
         if cards[i] == "blank":
             rndrCards.append(components.blankCard)
+        elif cards[i] == "10":
+            cardShape = components.cardShapes[random.randint(0, 7)]
+            renderedCard = f''' ___ \n|{cards[i]} |\n| {cardShape} |\n|__{cards[i]}|'''
+            rndrCards.append(renderedCard)
         else:
             cardShape = components.cardShapes[random.randint(0, 7)]
             renderedCard = f''' ___ \n|{cards[i]}  |\n| {cardShape} |\n|__{cards[i]}|'''
