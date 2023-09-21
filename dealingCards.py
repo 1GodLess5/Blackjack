@@ -5,7 +5,8 @@ import os
 
 def dealingCards(usersBet: float):
     usersHand = []
-    dealersHand = [5, 10, 'A', 2]
+    usersCount = 0
+    dealersHand = []
 
     os.system("clear")
     functions.gameLogo()
@@ -14,9 +15,18 @@ def dealingCards(usersBet: float):
     print(f"Your bet: {usersBet}€")
     print(functions.formattingConsole("END"))
 
-    numberOfDrawing = 2
+    # init of user
+    usersHand = userDealt(usersHand)
+    usersCount = countingCards(usersHand)
+    # printing
+    dealersCards(False, dealersHand)
+    usersPrint(usersHand)
 
-    dealersCards(True, dealersHand)
+    #users functionality outcome
+
+
+
+
 
     # while True:
     #     for i in range(numberOfDrawing):
@@ -107,8 +117,61 @@ def countingCards(hand: list):
     return cardsSum
 
 
-def usersCards(usersHand: list):
-    count = 0
+def userDealt(usersHand: list):
+    for i in range(2):
+        cardUser = random.choice(list(components.cards.keys()))
+        usersHand.append(cardUser)
 
-    while count < 21: # TODO: later add "or user != "stand""
-        pass
+    return usersHand
+
+def usersPrint(usersHand: list):
+    usersCardsToPrint = functions.printCardsFromList(usersHand)
+    usersCount = countingCards(usersHand)
+
+    print(f"You: {usersCount}")
+    print(functions.cardsRender(usersCardsToPrint))
+
+
+def usersFunctionality(usersHand: list, dealersHand: list):
+    count = countingCards(usersHand)
+
+    while True:
+        move = input("What do you want to do, according to hint? ").lower()
+
+        match move[0]:
+            case 'h':
+                cardUser = random.choice(list(components.cards.keys()))
+                usersHand.append(cardUser)
+                count = countingCards(usersHand)
+                usersPrint(usersHand)
+
+                if count >= 21:
+                    return count, "finished"
+            case 's':
+                return count, "finished"
+            case 'd':
+                if len(usersHand) == 2:
+                    cardUser = random.choice(list(components.cards.keys()))
+                    usersHand.append(cardUser)
+                    count = countingCards(usersHand)
+                    usersPrint(usersHand)
+
+                    return count, "double"
+                else:
+                    print(functions.formattingConsole("RED, BOLD"))
+                    print("This move is unavailable due to rules!")
+                    print(functions.formattingConsole("END"))
+            case 'f':
+                return count, "surrender"
+            case 'e':
+                if count == 21 and dealersHand[0] == 'A':
+                    return count, "even"
+                else:
+                    print(functions.formattingConsole("RED, BOLD"))
+                    print("This move is unavailable due to rules!")
+                    print(functions.formattingConsole("END"))
+            case _:
+                print(functions.formattingConsole("RED, BOLD"))
+                print("Invalid move! Please try again.")
+                print(functions.formattingConsole("END"))
+
