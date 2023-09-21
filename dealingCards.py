@@ -1,12 +1,16 @@
+import time
+
 import functions
 import components
 import random
 import os
 
-def dealingCards(usersBet: float):
+def dealingCards(usersBet: float, usersBalance: float):
+    usersBalance -= usersBet
     usersHand = []
     usersCount = 0
     dealersHand = []
+    dealersCount = 0
 
     os.system("clear")
     functions.gameLogo()
@@ -19,63 +23,39 @@ def dealingCards(usersBet: float):
     usersHand = userDealt(usersHand)
     usersCount = countingCards(usersHand)
     # printing
-    dealersCards(False, dealersHand)
+    dealersHand = dealersCards(False, dealersHand)
     usersPrint(usersHand)
 
     #users functionality outcome
+    functions.keyHint()
+    count, outCome = usersFunctionality(usersHand, dealersHand, usersBet)
+
+    os.system("clear")
+    functions.gameLogo()
+
+    if outCome == "finished":
+        usersBalance = outComeFinished(usersHand, dealersHand, usersBet, usersBalance)
+    elif outCome == "double":
+        usersBet = usersBet * 2
+        usersBalance = outComeFinished(usersHand, dealersHand, usersBet, usersBalance)
+    elif outCome == "surrender":
+        usersBet = usersBet / 2
+        usersBalance += usersBet
+        print(functions.formattingConsole("GREEN, BOLD"))
+        print(f"YOU DID SURRENDER, {usersBet}€ WILL BE REFUNDED.")
+        print(functions.formattingConsole("END"))
+    elif outCome == "even":
+        usersBalance += usersBet
+        print(functions.formattingConsole("BLUE, BOLD"))
+        print(f"YOU CHOSE TO PLAY EVEN, {usersBet}€ WILL BE REFUNDED.")
+        print(functions.formattingConsole("END"))
 
 
 
+    # after finishing
+    time.sleep(3)
+    return usersBalance
 
-
-    # while True:
-    #     for i in range(numberOfDrawing):
-    #         cardUser = random.choice(list(components.cards.keys()))
-    #         usersHand.append(cardUser)
-    #
-    #         cardDealer = random.choice(list(components.cards.keys()))
-    #         dealersHand.append(cardDealer)
-    #
-    #     print(usersHand)
-    #     print(dealersHand)
-    #     cardsSum = 0
-    #     for j in range(2):
-    #         if j == 0:
-    #             hand = usersHand
-    #         else:
-    #             # after the cycle goes off for the second round, this will be asigned for user, as the total is calculated in first round
-    #             usersSum = cardsSum
-    #             hand = dealersHand
-    #
-    #         cardsSum = 0
-    #         for i in hand:
-    #             if type(i) is int:
-    #                 cardsSum += i
-    #             else:
-    #                 if i == 'J' or i == 'Q' or i == 'K':
-    #                     cardsSum += 10
-    #                 else:
-    #                     if cardsSum > 10:
-    #                         cardsSum += 1
-    #                     else:
-    #                         cardsSum += 11
-    #         # this one will be assigned twice, but as this for loop with 'j' will go twice, the second one will be for dealer
-    #         dealersSum = cardsSum
-    #
-    #     print(f"Users sum = {usersSum}")
-    #     print(f"Dealers sum = {dealersSum}")
-    #
-    #
-    #
-    #     print(f"You: {usersSum}")
-    #     print(functions.cardsRender(str(usersHand[0]) + ", " + str(usersHand[1])))
-
-    #    functions.keyHint()
-        # TODO to think: Change the dealing for dealer so he right away gets all the cards, because it doesnt matter
-        # TODO           I mean, only user decided where to stand and where not, pc has to get cards if the sum is lower than 17 anyway :)        # TODO 1: ADD usersFunctionality() here
-        # TODO 2: change value of numberOfDrawing to 1, think how you will divide the drawing between user and dealer as
-        # TODO    dealer has different rules
-    #    break
 
 def dealersCards(isPlayerDone: bool, dealersHand: list):
     count = 0
@@ -96,7 +76,7 @@ def dealersCards(isPlayerDone: bool, dealersHand: list):
         print(f"Dealer: {count}")
         cardsToRender = functions.printCardsFromList(dealersHand)
         print(functions.cardsRender(cardsToRender))
-        # returns count, because when user will be done, i will need to check for the scores to decide the winner
+        # returns count, because when user will be done, I will need to check for the scores to decide the winner
         return count
 
 def countingCards(hand: list):
@@ -124,6 +104,7 @@ def userDealt(usersHand: list):
 
     return usersHand
 
+
 def usersPrint(usersHand: list):
     usersCardsToPrint = functions.printCardsFromList(usersHand)
     usersCount = countingCards(usersHand)
@@ -132,7 +113,7 @@ def usersPrint(usersHand: list):
     print(functions.cardsRender(usersCardsToPrint))
 
 
-def usersFunctionality(usersHand: list, dealersHand: list):
+def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
     count = countingCards(usersHand)
 
     while True:
@@ -146,26 +127,28 @@ def usersFunctionality(usersHand: list, dealersHand: list):
                 usersPrint(usersHand)
 
                 if count >= 21:
-                    return count, "finished"
+                    return usersHand, "finished"
             case 's':
-                return count, "finished"
+                return usersHand, "finished"
             case 'd':
                 if len(usersHand) == 2:
+                    print(functions.formattingConsole("YELLOW"))
+                    print(f"Your new bet: {usersBet}€")
+                    print(functions.formattingConsole("END"))
+
                     cardUser = random.choice(list(components.cards.keys()))
                     usersHand.append(cardUser)
-                    count = countingCards(usersHand)
-                    usersPrint(usersHand)
 
-                    return count, "double"
+                    return usersHand, "double"
                 else:
                     print(functions.formattingConsole("RED, BOLD"))
                     print("This move is unavailable due to rules!")
                     print(functions.formattingConsole("END"))
             case 'f':
-                return count, "surrender"
+                return usersHand, "surrender"
             case 'e':
                 if count == 21 and dealersHand[0] == 'A':
-                    return count, "even"
+                    return usersHand, "even"
                 else:
                     print(functions.formattingConsole("RED, BOLD"))
                     print("This move is unavailable due to rules!")
@@ -174,4 +157,50 @@ def usersFunctionality(usersHand: list, dealersHand: list):
                 print(functions.formattingConsole("RED, BOLD"))
                 print("Invalid move! Please try again.")
                 print(functions.formattingConsole("END"))
+
+
+def whoWon(usersCount, dealersCount):
+    if usersCount > 21:
+        return "dealer"
+    elif dealersCount > 21:
+        return "user"
+    elif usersCount == dealersCount:
+        return "tie"
+    elif usersCount == 21 and dealersCount != 21:
+        return "blackjack"
+    elif usersCount > dealersCount:
+        return "user"
+    elif usersCount < dealersCount:
+        return "dealer"
+
+def outComeFinished(usersHand:list, dealersHand: list, usersBet:float, usersBalance: float):
+    dealersCount = dealersCards(True, dealersHand)
+    usersCount = countingCards(usersHand)
+    usersPrint(usersHand)
+
+
+    winner = whoWon(usersCount, dealersCount)
+    if winner == "user":
+        usersBet = usersBet * 2
+        print(functions.formattingConsole("GREEN, BOLD"))
+        print(f"YOU WON {usersBet}€!")
+        print(functions.formattingConsole("END"))
+        usersBalance += usersBet
+    elif winner == "tie":
+        print(functions.formattingConsole("BLUE, BOLD"))
+        print(f"IT'S A TIE, YOU WILL RECEIVE YOUR BET {usersBet}€ BACK.")
+        print(functions.formattingConsole("END"))
+        usersBalance += usersBet
+    elif winner == "blackjack":
+        usersBet = usersBet * 2.5
+        usersBalance += usersBet
+        print(functions.formattingConsole("PURPLE, BOLD"))
+        print(f"YOU GOT BLACKJACK! YOU WON {usersBet}€!")
+        print(functions.formattingConsole("END"))
+    else:
+        print(functions.formattingConsole("RED, BOLD"))
+        print(f"YOU LOST {usersBet}€.")
+        print(functions.formattingConsole("END"))
+
+    return usersBalance
 
