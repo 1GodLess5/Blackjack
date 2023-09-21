@@ -5,7 +5,7 @@ import os
 
 def dealingCards(usersBet: float):
     usersHand = []
-    dealersHand = [5, 4, 'J']
+    dealersHand = [5, 10, 'A', 2]
 
     os.system("clear")
     functions.gameLogo()
@@ -75,18 +75,19 @@ def dealersCards(isPlayerDone: bool, dealersHand: list):
         dealersHand.append(cardDealer)
 
         count = countingCards(dealersHand)
-        print(dealersHand)
-        print(count)
 
     if isPlayerDone == False:
         print("Dealer: ???")
         print(functions.cardsRender("blank, " + str(dealersHand[0])))
-
+        # returns dealersHand for it to be stored outside the function and used later
         return dealersHand
     else:
         count = countingCards(dealersHand)
         print(f"Dealer: {count}")
-        printCardsFromList(dealersHand)
+        cardsToRender = functions.printCardsFromList(dealersHand)
+        print(functions.cardsRender(cardsToRender))
+        # returns count, because when user will be done, i will need to check for the scores to decide the winner
+        return count
 
 def countingCards(hand: list):
     cardsSum = 0
@@ -105,17 +106,9 @@ def countingCards(hand: list):
 
     return cardsSum
 
-def printCardsFromList(cardList: list):
-    stringToPrint = ""
-    count = len(cardList)
 
-    for i in cardList:
-        count -= 1
-        stringToPrint += str(i)
+def usersCards(usersHand: list):
+    count = 0
 
-        if count != 0:
-            stringToPrint += ", "
-
-    print(stringToPrint)
-
-    return stringToPrint
+    while count < 21: # TODO: later add "or user != "stand""
+        pass
