@@ -59,7 +59,8 @@ def dealingCards(usersBet: float):
         print(functions.cardsRender(str(usersHand[0]) + ", " + str(usersHand[1])))
 
         functions.keyHint()
-        # TODO 1: ADD usersFunctionality() here
+        # TODO to think: Change the dealing for dealer so he right away gets all the cards, because it doesnt matter
+        # TODO           I mean, only user decided where to stand and where not, pc has to get cards if the sum is lower than 17 anyway :)        # TODO 1: ADD usersFunctionality() here
         # TODO 2: change value of numberOfDrawing to 1, think how you will divide the drawing between user and dealer as
         # TODO    dealer has different rules
         break
