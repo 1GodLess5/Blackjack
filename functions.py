@@ -170,3 +170,18 @@ def usersBet(usersBalance: float):
 
     return bet
 
+
+def printCardsFromList(cardList: list):
+    stringToPrint = ""
+    count = len(cardList)
+
+    for i in cardList:
+        count -= 1
+        stringToPrint += str(i)
+
+        if count != 0:
+            stringToPrint += ", "
+
+    print(stringToPrint)
+
+    return stringToPrint
