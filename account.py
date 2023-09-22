@@ -2,14 +2,16 @@ import getpass
 import os
 from passlib.hash import bcrypt
 import functions
+import string
+hasher = bcrypt.using(rounds=13)
 
 
 def account():
     hasAccount = isAccount()
-    if hasAccount == 1:  #user has account
+    if hasAccount == 1:  # user has account
         pass
-    else:  # needs create an account
-        pass
+    else:  # needs to create an account
+        createAccount()
 
 
 def isAccount():
@@ -37,13 +39,29 @@ def isAccount():
     return hasAccount
 
 
-hasher = bcrypt.using(rounds=13)
+def createAccount():
+    # file = open("users.txt", "r")
+    #
+    # for line in file:
+    #     print(line.rstrip())
+    #
+    # file.close()
 
-user = input("Enter your name: ")
-password = getpass.getpass("Enter password: ")
-hashedPassword = hasher.hash(password)
+    while True:
+        user = input("Enter your name: ")
 
-print(user)
-print(password)
-print(hashedPassword)
+    # password = getpass.getpass("Enter password: ")
+    # hashedPassword = hasher.hash(password)
+    #
+    # print(user)
+    # print(password)
+    # print(hashedPassword)
 
+def checkForSpecial(stringToCheck: str):
+    for character in stringToCheck:
+        if ord(character) < 48 or (57 < ord(character) < 65) or (90 < ord(character) < 97) or ord(character) > 122:
+            return True
+    return False
+
+
+account()
