@@ -21,12 +21,11 @@ def dealingCards(usersBet: float, usersBalance: float):
 
     # init of user
     usersHand = userDealt(usersHand)
-    usersCount = countingCards(usersHand)
     # printing
     dealersHand = dealersCards(False, dealersHand)
     usersPrint(usersHand)
 
-    #users functionality outcome
+    # users functionality outcome
     functions.keyHint()
     count, outCome = usersFunctionality(usersHand, dealersHand, usersBet)
 
@@ -162,11 +161,11 @@ def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
 def whoWon(usersCount, dealersCount):
     if usersCount > 21:
         return "dealer"
-    elif dealersCount > 21:
+    elif dealersCount > 21 and usersCount != 21:
         return "user"
     elif usersCount == dealersCount:
         return "tie"
-    elif usersCount == 21 and dealersCount != 21:
+    elif usersCount == 21:
         return "blackjack"
     elif usersCount > dealersCount:
         return "user"
