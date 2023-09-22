@@ -3,6 +3,7 @@ import time
 from datetime import date
 import functions
 
+
 def underAge(isUnderage: bool):
     if isUnderage:
         print(functions.formattingConsole("BOLD, RED"))
@@ -13,6 +14,7 @@ def underAge(isUnderage: bool):
         print("You will be redirected to the rules section in 5 seconds.")
         print("Waiting...")
         time.sleep(7)
+
 
 def main():
     os.system("clear")
