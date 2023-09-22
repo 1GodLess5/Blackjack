@@ -9,7 +9,7 @@ import dealingCards
 #                            2) Balance (> see my balance, top out my balance, withdraw)
 #                            3) Exit Game
 # TODO 1) you are in accountManagement branch
-# TODO    account.py in the bottom is how you will has the file, continue with functions
+# TODO    account.py in the bottom is how you will hash the password, continue with TODO
 
 # welcoming screen
 functions.firstScreen()
