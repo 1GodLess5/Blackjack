@@ -1,16 +1,15 @@
 import time
-
 import functions
 import components
 import random
 import os
 
+
+# main function
 def dealingCards(usersBet: float, usersBalance: float):
     usersBalance -= usersBet
     usersHand = []
-    usersCount = 0
     dealersHand = []
-    dealersCount = 0
 
     os.system("clear")
     functions.gameLogo()
@@ -21,14 +20,15 @@ def dealingCards(usersBet: float, usersBalance: float):
 
     # init of user
     usersHand = userDealt(usersHand)
-    # printing
+    # init of dealer and printing
     dealersHand = dealersCards(False, dealersHand)
     usersPrint(usersHand)
 
-    # users functionality outcome
+    # usersFunctionality() outcome
     functions.keyHint()
     count, outCome = usersFunctionality(usersHand, dealersHand, usersBet)
 
+    # deciding who is the winner
     os.system("clear")
     functions.gameLogo()
 
@@ -49,13 +49,12 @@ def dealingCards(usersBet: float, usersBalance: float):
         print(f"YOU CHOSE TO PLAY EVEN, {usersBet}€ WILL BE REFUNDED.")
         print(functions.formattingConsole("END"))
 
-
-
-    # after finishing
+    # after finishing updating users balance based on who won
     time.sleep(3)
     return usersBalance
 
 
+# function for dealing cards to dealer
 def dealersCards(isPlayerDone: bool, dealersHand: list):
     count = 0
 
@@ -78,6 +77,8 @@ def dealersCards(isPlayerDone: bool, dealersHand: list):
         # returns count, because when user will be done, I will need to check for the scores to decide the winner
         return count
 
+
+# function for counting cards
 def countingCards(hand: list):
     cardsSum = 0
 
@@ -96,6 +97,7 @@ def countingCards(hand: list):
     return cardsSum
 
 
+# deals 2 cards for user, "init" for user
 def userDealt(usersHand: list):
     for i in range(2):
         cardUser = random.choice(list(components.cards.keys()))
@@ -104,6 +106,7 @@ def userDealt(usersHand: list):
     return usersHand
 
 
+# prints out users count and his cards
 def usersPrint(usersHand: list):
     usersCardsToPrint = functions.printCardsFromList(usersHand)
     usersCount = countingCards(usersHand)
@@ -112,6 +115,7 @@ def usersPrint(usersHand: list):
     print(functions.cardsRender(usersCardsToPrint))
 
 
+# this function is used for users game -> hit, double etc.
 def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
     count = countingCards(usersHand)
 
@@ -119,6 +123,7 @@ def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
         move = input("What do you want to do, according to hint? ").lower()
 
         match move[0]:
+            # hit -> continues till user reaches 21
             case 'h':
                 cardUser = random.choice(list(components.cards.keys()))
                 usersHand.append(cardUser)
@@ -129,6 +134,7 @@ def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
                     return usersHand, "finished"
             case 's':
                 return usersHand, "finished"
+            # double -> if available, user gets one more cards and then quits
             case 'd':
                 if len(usersHand) == 2:
                     print(functions.formattingConsole("YELLOW"))
@@ -158,7 +164,8 @@ def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
                 print(functions.formattingConsole("END"))
 
 
-def whoWon(usersCount, dealersCount):
+# deciding who wins, based on scores
+def whoWon(usersCount: int, dealersCount: int):
     if usersCount > 21:
         return "dealer"
     elif dealersCount > 21 and usersCount != 21:
@@ -172,11 +179,12 @@ def whoWon(usersCount, dealersCount):
     elif usersCount < dealersCount:
         return "dealer"
 
+
+# prints out dealers and users cards, message for user who won + his loss/ win bet
 def outComeFinished(usersHand:list, dealersHand: list, usersBet:float, usersBalance: float):
     dealersCount = dealersCards(True, dealersHand)
     usersCount = countingCards(usersHand)
     usersPrint(usersHand)
-
 
     winner = whoWon(usersCount, dealersCount)
     if winner == "user":
@@ -202,4 +210,3 @@ def outComeFinished(usersHand:list, dealersHand: list, usersBet:float, usersBala
         print(functions.formattingConsole("END"))
 
     return usersBalance
-
