@@ -3,7 +3,11 @@ import components
 import ageChecker
 import dealingCards
 
-
+# welcome message, do you have an account?
+# no -> age verification, rules verification, create account
+# yes -> login, main menu -> 1) Play Game
+#                            2) Balance (> see my balance, top out my balance, withdraw)
+#                            3) Exit Game
 # TODO 1) make nice users decision map (play again, exit, ? maybe login ?)
 
 # welcoming screen
