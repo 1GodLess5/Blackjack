@@ -8,7 +8,8 @@ import dealingCards
 # yes -> login, main menu -> 1) Play Game
 #                            2) Balance (> see my balance, top out my balance, withdraw)
 #                            3) Exit Game
-# TODO 1) make nice users decision map (play again, exit, ? maybe login ?)
+# TODO 1) you are in accountManagement branch
+# TODO    account.py in the bottom is how you will has the file, continue with functions
 
 # welcoming screen
 functions.firstScreen()
