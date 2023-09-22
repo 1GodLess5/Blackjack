@@ -40,15 +40,36 @@ def isAccount():
 
 
 def createAccount():
-    # file = open("users.txt", "r")
-    #
-    # for line in file:
-    #     print(line.rstrip())
-    #
-    # file.close()
-
     while True:
+        usedName = False
         user = input("Enter your name: ")
+
+        if len(user) < 5:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Username must contain at least 5 letters.")
+            print(functions.formattingConsole("END"))
+        elif checkForSpecial(user) == True:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Username must not contain any special characters!")
+            print(functions.formattingConsole("END"))
+        else:
+            with open("users.txt") as file:
+                for line in file:
+                    name = line.split(":")[0]
+                    if name == user:
+                        print(functions.formattingConsole("YELLOW"))
+                        print("This username is already taken, please try again.")
+                        print(functions.formattingConsole("END"))
+                        usedName = True
+            if usedName != True:
+                break
+
+    # TODO: CONTINUE HERE, VALIDATING NAME IS DONE, NOW PASSWORD PART ->
+    # TODO  at least 8 characters, one big letter, one number, one special character etc.
+
+
+
+
 
     # password = getpass.getpass("Enter password: ")
     # hashedPassword = hasher.hash(password)
