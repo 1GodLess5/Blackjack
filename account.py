@@ -55,7 +55,7 @@ def createAccount():
         else:
             with open("users.txt") as file:
                 for line in file:
-                    name = line.split(":")[0]
+                    name = line.split(" ")[0]
                     if name == user:
                         print(functions.formattingConsole("YELLOW"))
                         print("This username is already taken, please try again.")
@@ -63,8 +63,7 @@ def createAccount():
                         usedName = True
             if usedName != True:
                 break
-    # TODO: CONTINUE HERE, VALIDATING NAME IS DONE, NOW PASSWORD PART ->
-    # TODO  at least 8 characters, one big letter, one number, one special character etc.
+
     while True:
         containsNumber = False
         password = getpass.getpass("Enter password - at least 8 characters, 1 special character and 1 number: ")
@@ -89,10 +88,13 @@ def createAccount():
             break
 
     hashedPassword = hasher.hash(password)
+    with open("users.txt", "a") as file:
+        file.write(user + " " + str(hashedPassword) + "\n")
 
-    print(user)
-    print(password)
-    print(hashedPassword)
+    print(functions.formattingConsole("GREEN, BOLD"))
+    print("You have successfully created new account!")
+    print(functions.formattingConsole("END"))
+
 
 def checkForSpecial(stringToCheck: str):
     for character in stringToCheck:
