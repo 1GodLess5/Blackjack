@@ -15,7 +15,7 @@ def account():
 
 
 def isAccount():
-    os.system("CLEAR")
+    os.system("clear")
     print(functions.formattingConsole("YELLOW"))
     print("Do you have an account?")
     print(functions.formattingConsole("END"))
@@ -63,20 +63,36 @@ def createAccount():
                         usedName = True
             if usedName != True:
                 break
-
     # TODO: CONTINUE HERE, VALIDATING NAME IS DONE, NOW PASSWORD PART ->
     # TODO  at least 8 characters, one big letter, one number, one special character etc.
+    while True:
+        containsNumber = False
+        password = getpass.getpass("Enter password - at least 8 characters, 1 special character and 1 number: ")
 
+        for i in password:
+            if ord(i) >= 48 and ord(i) <= 57:
+                containsNumber = True
 
+        if checkForSpecial(password) == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one special character!")
+            print(functions.formattingConsole("END"))
+        elif len(password) < 8:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must be at least 8 characters long!")
+            print(functions.formattingConsole("END"))
+        elif containsNumber == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one number!")
+            print(functions.formattingConsole("END"))
+        else:
+            break
 
+    hashedPassword = hasher.hash(password)
 
-
-    # password = getpass.getpass("Enter password: ")
-    # hashedPassword = hasher.hash(password)
-    #
-    # print(user)
-    # print(password)
-    # print(hashedPassword)
+    print(user)
+    print(password)
+    print(hashedPassword)
 
 def checkForSpecial(stringToCheck: str):
     for character in stringToCheck:
