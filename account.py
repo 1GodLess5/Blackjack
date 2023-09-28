@@ -9,7 +9,7 @@ hasher = bcrypt.using(rounds=13)
 def account():
     hasAccount = isAccount()
     if hasAccount == 1:  # user has account
-        pass
+        logIn()
     else:  # needs to create an account
         createAccount()
 
@@ -53,7 +53,7 @@ def createAccount():
             print("Username must not contain any special characters!")
             print(functions.formattingConsole("END"))
         else:
-            with open("users.txt") as file:
+            with open("users.txt", "r") as file:
                 for line in file:
                     name = line.split(" ")[0]
                     if name == user:
@@ -101,6 +101,21 @@ def checkForSpecial(stringToCheck: str):
         if ord(character) < 48 or (57 < ord(character) < 65) or (90 < ord(character) < 97) or ord(character) > 122:
             return True
     return False
+
+def logIn():
+    userName = input("Enter your name: ")
+    with open("users.txt", "r") as file:
+        for line in file:
+            name = line.split(" ")[0] # THIS LINE [0] is the first out of split, [1] would be for password...
+            if name == userName:
+                print("Yah")
+    # TODO 1) FINISH CHECKING FOR THE NAME, THEN CHECK FOR THE PASSWORD
+    # TODO the commented else statement is what you will write out if the name doesn't exist :)
+    # else:
+    # print(functions.formattingConsole("RED, BOLD"))
+    # print("This username does not exist.")
+    # print(functions.formattingConsole("END"))
+    # return False
 
 
 account()
