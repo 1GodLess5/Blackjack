@@ -103,18 +103,42 @@ def checkForSpecial(stringToCheck: str):
     return False
 
 def logIn():
+    userExists = False
+
     userName = input("Enter your name: ")
     with open("users.txt", "r") as file:
         for line in file:
             name = line.split(" ")[0] # THIS LINE [0] is the first out of split, [1] would be for password...
             if name == userName:
-                print("Yah")
+                userExists = True
+
+    passwordTries = 3
+    if userExists == True:
+        while passwordTries > 0:
+            passwordCheck = ""
+            password = getpass.getpass("Enter your password: ")
+            hashedPassword = hasher.hash(password)
+            with open("users.txt", "r") as file:
+                name = line.split(" ")[0]
+                passwordCheck = line.split(" ")[1]
+                balance = line.split(" ")[2].strip("\n")
+
+                if name == userName and hasher.verify(password, passwordCheck) == True:
+                    print(functions.formattingConsole("GREEN, BOLD"))
+                    print("You have successfully log in your account!")
+                    print(functions.formattingConsole("END"))
+                    print("Your balance: " + balance)
+                    return name, balance
+            # if the with statement which goes through the file fails, one attempt gets down
+            passwordTries -= 1
+    else:
+        print(functions.formattingConsole("RED, BOLD"))
+        print("This username does not exist.")
+        print(functions.formattingConsole("END"))
     # TODO 1) FINISH CHECKING FOR THE NAME, THEN CHECK FOR THE PASSWORD
     # TODO the commented else statement is what you will write out if the name doesn't exist :)
     # else:
-    # print(functions.formattingConsole("RED, BOLD"))
-    # print("This username does not exist.")
-    # print(functions.formattingConsole("END"))
+
     # return False
 
 
