@@ -1,17 +1,41 @@
+# password creating
 import getpass
-import os
 from passlib.hash import bcrypt
+# functions clear and time.sleep()
+import os
+import time
+# my files
 import functions
-import string
+import ageChecker
+# initializing hashing
 hasher = bcrypt.using(rounds=13)
 
 
 def account():
     hasAccount = isAccount()
     if hasAccount == 1:  # user has account
-        logIn()
+        userName, usersBalance = logIn()
+        if userName == None:
+            account()
+        else:
+            # reminding user of the rules
+            functions.rulesConfirmation()
+            return userName, usersBalance
     else:  # needs to create an account
-        createAccount()
+        # verifying user's age before making an account
+        ageChecker.main()
+        # creating an account
+        userName = createAccount()
+        # user's agreement to the rules
+        functions.rulesConfirmation()
+        # getting user's balance to play with
+        usersBalance = functions.enterBalance()  # testing variables: usersBalance = 500, usersBet = 25
+
+        # TODO CHECK OUT FOR BUGS -> YOU WILL FIND ALL PASSWORDS IN users.txt -> I FEEL LIKE THE HASH CONFIRMATION FAILS SOMETIMES
+        # TODO FINISH THIS FILE, ADD WRITING USERS BALANCE IN FILE? AFTER CREATING THE ACCOUNT
+
+
+
 
 
 def isAccount():
@@ -92,8 +116,11 @@ def createAccount():
         file.write(user + " " + str(hashedPassword) + "\n")
 
     print(functions.formattingConsole("GREEN, BOLD"))
-    print("You have successfully created new account!")
+    print("You have successfully created new account, you will be redirected to rules confirmation in 5 seconds!")
     print(functions.formattingConsole("END"))
+    time.sleep(5)
+
+    return user
 
 
 def checkForSpecial(stringToCheck: str):
@@ -108,7 +135,7 @@ def logIn():
     userName = input("Enter your name: ")
     with open("users.txt", "r") as file:
         for line in file:
-            name = line.split(" ")[0] # THIS LINE [0] is the first out of split, [1] would be for password...
+            name = line.split(" ")[0]  # THIS LINE [0] is the first out of split, [1] would be for password...
             if name == userName:
                 userExists = True
 
@@ -117,7 +144,6 @@ def logIn():
         while passwordTries > 0:
             passwordCheck = ""
             password = getpass.getpass("Enter your password: ")
-            hashedPassword = hasher.hash(password)
             with open("users.txt", "r") as file:
                 name = line.split(" ")[0]
                 passwordCheck = line.split(" ")[1]
@@ -125,21 +151,27 @@ def logIn():
 
                 if name == userName and hasher.verify(password, passwordCheck) == True:
                     print(functions.formattingConsole("GREEN, BOLD"))
-                    print("You have successfully log in your account!")
-                    print(functions.formattingConsole("END"))
+                    print("You have successfully logged in your account!")
                     print("Your balance: " + balance)
+                    print(functions.formattingConsole("END"))
                     return name, balance
-            # if the with statement which goes through the file fails, one attempt gets down
+            # if the "with" statement which goes through the file fails, one attempt gets down
             passwordTries -= 1
+            print(functions.formattingConsole("RED, BOLD"))
+            print(f"Incorrect password, please try again. Remaining tries: {passwordTries}")
+            print(functions.formattingConsole("END"))
+            if passwordTries == 0:
+                print(functions.formattingConsole("RED, BOLD"))
+                print(f"You have failed to verify your password. Try again or make new account in 10 seconds.")
+                print(functions.formattingConsole("END"))
+                time.sleep(10)
+                return None, None
     else:
         print(functions.formattingConsole("RED, BOLD"))
         print("This username does not exist.")
         print(functions.formattingConsole("END"))
-    # TODO 1) FINISH CHECKING FOR THE NAME, THEN CHECK FOR THE PASSWORD
-    # TODO the commented else statement is what you will write out if the name doesn't exist :)
-    # else:
-
-    # return False
+        time.sleep(10)
+        return None, None
 
 
 account()
