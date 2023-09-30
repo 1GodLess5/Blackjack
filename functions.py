@@ -185,3 +185,33 @@ def printCardsFromList(cardList: list):
     print(stringToPrint)
 
     return stringToPrint
+
+
+def writeBalance(userName: str, usersBalance: float):
+    """
+    Writes User's Balance into "users.txt" file.
+    :param userName: Username
+    :param usersBalance: User's Balance
+    :return: None
+    """
+    with open("users.txt", "r") as file:
+        allLines = file.readlines()
+
+        counter = 0
+        for line in allLines:
+            name = line.split(" ")[0]
+            if name == userName:
+                newLine = allLines[counter]
+                break
+            else:
+                counter += 1
+
+    newLine = newLine.split(" ")
+    if len(newLine) == 2:
+        newLine.append(str(usersBalance))
+    else:
+        newLine[2] = str(usersBalance)
+    allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
+
+    with open("users.txt", "w") as file:
+        file.writelines(allLines)
