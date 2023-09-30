@@ -1,4 +1,3 @@
-import random
 import components
 import gameRules
 import time
@@ -7,6 +6,11 @@ import random
 
 
 def cardsRender(cardToDraw: str):
+    """
+    Rendering cards to the terminal.
+    :param cardToDraw: String. Example: ("A, 2, J")
+    :return: Rendered cards in string.
+    """
     # splitting string of wanted drawn cards to list
     cards = cardToDraw.split(", ")
     # rndrCards stands for rendered
@@ -50,11 +54,21 @@ def cardsRender(cardToDraw: str):
 
 
 def firstScreen():
+    """
+    First screen.
+    Renders game logo and waits for users input.
+    :return: None
+    """
     gameLogo()
     input("Press any key to continue.")
 
 
 def gameLogo():
+    """
+    Formatting and printing out game logo.
+    :return: None
+    """
+    os.system("clear")
     print(formattingConsole("BLUE"))
     print("Blackjack, by GodLess https://github.com/1GodLess5/Blackjack")
     print(components.logo)
@@ -62,6 +76,12 @@ def gameLogo():
 
 
 def rulesConfirmation():
+    """
+    Prints out rules of Blackjack and asks if user accepts.
+
+    If user declines, the game shuts down.
+    :return: None
+    """
     while True:
         os.system("clear")
         gameLogo()
@@ -89,6 +109,11 @@ def rulesConfirmation():
 
 
 def formattingConsole(format: str):
+    """
+    Function to help format the color and style of print() function
+    :param format: String of how the print should be formatted e.g. "BOLD, RED", "END"
+    :return: Formatted string
+    """
     listOfRequirements = format.split(", ")
     counter = 0
     finalString = ""
@@ -105,8 +130,10 @@ def formattingConsole(format: str):
 
 
 def enterBalance():
-    usersBalance = 0
-
+    """
+    Prompts user to enter his balance.
+    :return: User's new balance
+    """
     os.system("clear")
     gameLogo()
 
@@ -137,12 +164,21 @@ def enterBalance():
 
 
 def keyHint():
+    """
+    Prints out available moves.
+    :return: None
+    """
     print(formattingConsole("YELLOW"))
     print("Available actions: (H)it\t(S)tand\t\t(D)ouble\t(F) to surrender\t(E)ven money")
     print(formattingConsole("END"))
 
 
 def usersBet(usersBalance: float):
+    """
+    Asks how much user wants to bet in the round.
+    :param usersBalance: User's actual balance.
+    :return: Bet
+    """
     print("The lowest bet at this table is 25€.")
     print(f"Your remaining balance is {usersBalance}€.")
 
@@ -172,6 +208,11 @@ def usersBet(usersBalance: float):
 
 
 def printCardsFromList(cardList: list):
+    """
+    Changes the "list" of cards into string which will be passed into "cardsRender()""
+    :param cardList: List of cards.
+    :return: String of cards.
+    """
     stringToPrint = ""
     count = len(cardList)
 
