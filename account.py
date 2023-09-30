@@ -52,7 +52,6 @@ def isAccount():
     while True:
         try:
             hasAccount = int(input("1) I have an account.\n2) I want to create an account.\n"))
-
             if hasAccount < 1 or hasAccount > 2:
                 print(functions.formattingConsole("RED, BOLD"))
                 print("Invalid input!")
