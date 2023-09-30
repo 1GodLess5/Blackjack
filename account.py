@@ -30,16 +30,21 @@ def account():
         functions.rulesConfirmation()
         # getting user's balance to play with
         usersBalance = functions.enterBalance()  # testing variables: usersBalance = 500, usersBet = 25
-
-        # TODO CHECK OUT FOR BUGS -> YOU WILL FIND ALL PASSWORDS IN users.txt -> I FEEL LIKE THE HASH CONFIRMATION FAILS SOMETIMES
-        # TODO FINISH THIS FILE, ADD WRITING USERS BALANCE IN FILE? AFTER CREATING THE ACCOUNT
-
-
-
+        functions.writeBalance(userName, usersBalance)
+        return userName, usersBalance
 
 
 def isAccount():
+    """
+    Function to ask user if he wants to log in or register.
+    :return: Bool
+    """
+
     os.system("clear")
+    functions.gameLogo()
+    print(functions.formattingConsole("BLUE, BOLD"))
+    print("LOG-IN/REGISTER")
+    print(functions.formattingConsole("END"))
     print(functions.formattingConsole("YELLOW"))
     print("Do you have an account?")
     print(functions.formattingConsole("END"))
@@ -64,6 +69,12 @@ def isAccount():
 
 
 def createAccount():
+    """
+    Creates account for user.
+
+    Prompts user to enter username and password. Password gets hashed and stored in "users.txt".
+    :return: Username for the further game.
+    """
     while True:
         usedName = False
         user = input("Enter your name: ")
@@ -124,12 +135,22 @@ def createAccount():
 
 
 def checkForSpecial(stringToCheck: str):
+    """
+    Function to check if user doesn't enter invalid characters into his username.
+    :param stringToCheck: New username to be checked.
+    :return: Bool: True - Contains invalid characters
+    """
     for character in stringToCheck:
         if ord(character) < 48 or (57 < ord(character) < 65) or (90 < ord(character) < 97) or ord(character) > 122:
             return True
     return False
 
+
 def logIn():
+    """
+    Log-in to the game.
+    :return: Username and User's Balance for further game.
+    """
     userExists = False
 
     userName = input("Enter your name: ")
@@ -176,6 +197,3 @@ def logIn():
         print(functions.formattingConsole("END"))
         time.sleep(5)
         return None, None
-
-
-account()
