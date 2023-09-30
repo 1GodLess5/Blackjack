@@ -5,8 +5,13 @@ import random
 import os
 
 
-# main function
 def dealingCards(usersBet: float, usersBalance: float):
+    """
+    Main function.
+    :param usersBet: Users bet for this round
+    :param usersBalance: Users balance
+    :return: New users balance after the round
+    """
     usersBalance -= usersBet
     usersHand = []
     dealersHand = []
@@ -54,8 +59,13 @@ def dealingCards(usersBet: float, usersBalance: float):
     return usersBalance
 
 
-# function for dealing cards to dealer
 def dealersCards(isPlayerDone: bool, dealersHand: list):
+    """
+    Deals cards to dealer.
+    :param isPlayerDone: Bool: True -> player is done, prints dealers whole hand; False -> prints out dealers hidden hand
+    :param dealersHand: Cards of dealer
+    :return: If player is done, returns count of dealers cards. If not returns dealers current cards.
+    """
     count = 0
 
     while count < 17 and isPlayerDone == False:
@@ -78,8 +88,12 @@ def dealersCards(isPlayerDone: bool, dealersHand: list):
         return count
 
 
-# function for counting cards
 def countingCards(hand: list):
+    """
+    Counts cards values.
+    :param hand: Cards
+    :return: Sum of cards
+    """
     cardsSum = 0
 
     for i in hand:
@@ -97,8 +111,12 @@ def countingCards(hand: list):
     return cardsSum
 
 
-# deals 2 cards for user, "init" for user
 def userDealt(usersHand: list):
+    """
+    Deals first two cards to the user.
+    :param usersHand: Empty list of users cards
+    :return: Updated list of 2 dealt cards
+    """
     for i in range(2):
         cardUser = random.choice(list(components.cards.keys()))
         usersHand.append(cardUser)
@@ -106,8 +124,12 @@ def userDealt(usersHand: list):
     return usersHand
 
 
-# prints out users count and his cards
 def usersPrint(usersHand: list):
+    """
+    Prints out users count of cards and his cards
+    :param usersHand: Users cards
+    :return: None
+    """
     usersCardsToPrint = functions.printCardsFromList(usersHand)
     usersCount = countingCards(usersHand)
 
@@ -115,8 +137,16 @@ def usersPrint(usersHand: list):
     print(functions.cardsRender(usersCardsToPrint))
 
 
-# this function is used for users game -> hit, double etc.
 def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
+    """
+    Users game.
+
+    Etc. Hit, Stand, ...
+    :param usersHand: User's Cards
+    :param dealersHand: Dealer's Cards
+    :param usersBet: User's bet
+    :return: updated User's Cards; Status of the game
+    """
     count = countingCards(usersHand)
 
     while True:
@@ -164,8 +194,13 @@ def usersFunctionality(usersHand: list, dealersHand: list, usersBet: float):
                 print(functions.formattingConsole("END"))
 
 
-# deciding who wins, based on scores
 def whoWon(usersCount: int, dealersCount: int):
+    """
+    Decides who wins, based on cards sum.
+    :param usersCount: User's cards sum
+    :param dealersCount: Dealer's card sum
+    :return: String of winner
+    """
     if usersCount > 21:
         return "dealer"
     elif dealersCount > 21 and usersCount != 21:
@@ -180,8 +215,15 @@ def whoWon(usersCount: int, dealersCount: int):
         return "dealer"
 
 
-# prints out dealers and users cards, message for user who won + his loss/ win bet
 def outComeFinished(usersHand:list, dealersHand: list, usersBet:float, usersBalance: float):
+    """
+    Prints out dealers and users cards. Message for user who won + his loss/ win bet.
+    :param usersHand: User's cards
+    :param dealersHand: Dealer's cards
+    :param usersBet: User's bet
+    :param usersBalance: User's balance
+    :return: Updated user's balance
+    """
     dealersCount = dealersCards(True, dealersHand)
     usersCount = countingCards(usersHand)
     usersPrint(usersHand)
