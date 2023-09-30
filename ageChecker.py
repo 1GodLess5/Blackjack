@@ -5,6 +5,13 @@ import functions
 
 
 def underAge(isUnderage: bool):
+    """
+    Prints out message.
+
+    If user is underage, the game shuts down.
+    :param isUnderage: Bool: True -> User is underage, False -> User is adult
+    :return: None
+    """
     if isUnderage:
         print(functions.formattingConsole("BOLD, RED"))
         exit("I'm sorry, but individuals under the age of 18 are not permitted to participate in hazardous games due to safety and legal reasons.")
@@ -18,6 +25,10 @@ def underAge(isUnderage: bool):
 
 
 def main():
+    """
+    Based on input checks for users age.
+    :return: None
+    """
     os.system("clear")
     functions.gameLogo()
 
