@@ -144,17 +144,21 @@ def logIn():
         while passwordTries > 0:
             passwordCheck = ""
             password = getpass.getpass("Enter your password: ")
-            with open("users.txt", "r") as file:
-                name = line.split(" ")[0]
-                passwordCheck = line.split(" ")[1]
-                balance = line.split(" ")[2].strip("\n")
 
-                if name == userName and hasher.verify(password, passwordCheck) == True:
-                    print(functions.formattingConsole("GREEN, BOLD"))
-                    print("You have successfully logged in your account!")
-                    print("Your balance: " + balance)
-                    print(functions.formattingConsole("END"))
-                    return name, balance
+            with open("users.txt", "r") as file:
+                for line in file:
+                    splittedLine = line.split(" ")
+                    name = splittedLine[0]
+                    passwordCheck = splittedLine[1]
+                    balance = splittedLine[2]
+
+                    if name == userName and hasher.verify(password, passwordCheck) == True:
+                        print(functions.formattingConsole("GREEN, BOLD"))
+                        print("You have successfully logged in your account!")
+                        print("In 5 seconds you will be redirected to rules section.")
+                        print(functions.formattingConsole("END"))
+                        time.sleep(7)
+                        return name, balance
             # if the "with" statement which goes through the file fails, one attempt gets down
             passwordTries -= 1
             print(functions.formattingConsole("RED, BOLD"))
@@ -162,15 +166,15 @@ def logIn():
             print(functions.formattingConsole("END"))
             if passwordTries == 0:
                 print(functions.formattingConsole("RED, BOLD"))
-                print(f"You have failed to verify your password. Try again or make new account in 10 seconds.")
+                print(f"You have failed to verify your password. Try again or make new account in 5 seconds.")
                 print(functions.formattingConsole("END"))
-                time.sleep(10)
+                time.sleep(7)
                 return None, None
     else:
         print(functions.formattingConsole("RED, BOLD"))
         print("This username does not exist.")
         print(functions.formattingConsole("END"))
-        time.sleep(10)
+        time.sleep(5)
         return None, None
 
 
