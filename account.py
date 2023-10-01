@@ -17,6 +17,12 @@ def account():
     Main function.
     :return: Username and user's balance
     """
+    # if the files don't exist, create them
+    with open("users.txt", "w"):
+        pass
+    with open("secrets.txt", "w"):
+        pass
+
     hasAccount = isAccount()
     if hasAccount == 1:  # user has account
         userName, usersBalance = logIn()
