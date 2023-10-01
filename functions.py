@@ -51,7 +51,7 @@ def cardsRender(cardToDraw: str):
 
 def firstScreen():
     gameLogo()
-    input("Press any key to continue.")
+    input("Press enter to continue.")
 
 
 def gameLogo():
