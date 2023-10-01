@@ -196,3 +196,54 @@ def logIn():
         print(functions.formattingConsole("END"))
         time.sleep(5)
         return None, None
+
+def forgotPassword():
+    userExists = False
+
+    userName = input("Enter your name: ")
+    with open("users.txt", "r") as file:
+        for line in file:
+            name = line.split(" ")[0]
+            if name == userName:
+                userExists = True
+
+    secretTries = 3
+    if userExists == True:
+        while secretTries > 0:
+            secret = getpass.getpass("Enter your secret code: ")
+
+            with open("secrets.txt", "r") as file:
+                for line in file:
+                    splittedLine = line.split(" ")
+                    name = splittedLine[0]
+                    secretCheck = splittedLine[1]
+
+                    if name == userName and hasher.verify(secret, secretCheck) == True:
+                        print(functions.formattingConsole("GREEN, BOLD"))
+                        print("You have successfully entered the secret code!")
+                        print(functions.formattingConsole("END"))
+                        restoringAccount(userName)
+                        print(functions.formattingConsole("GREEN, BOLD"))
+                        print("You have successfully restored your account!")
+                        print("In 5 seconds you will be redirected to log in window.")
+                        print(functions.formattingConsole("END"))
+                        time.sleep(7)
+                        return True
+            # if the "with" statement which goes through the file fails, one attempt gets down
+            secretTries -= 1
+            print(functions.formattingConsole("RED, BOLD"))
+            print(f"Incorrect secret code, please try again. Remaining tries: {secretTries}")
+            print(functions.formattingConsole("END"))
+            if secretTries == 0:
+                print(functions.formattingConsole("RED, BOLD"))
+                print(f"You have failed to verify your password. Try again or make new account in 5 seconds.")
+                print(functions.formattingConsole("END"))
+                time.sleep(7)
+                return False
+    else:
+        print(functions.formattingConsole("RED, BOLD"))
+        print("This username does not exist.")
+        print(functions.formattingConsole("END"))
+        time.sleep(5)
+        return False
+
