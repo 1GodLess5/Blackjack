@@ -215,6 +215,7 @@ def logIn():
         time.sleep(5)
         return None, None
 
+
 def forgotPassword():
     """
     If user forgots his password.
@@ -319,6 +320,7 @@ def restoringPassword(userName: str):
 
     with open("users.txt", "w") as file:
         file.writelines(allLines)
+
 
 def createSecret(userName: str):
     """
