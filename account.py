@@ -222,7 +222,7 @@ def forgotPassword():
                         print(functions.formattingConsole("GREEN, BOLD"))
                         print("You have successfully entered the secret code!")
                         print(functions.formattingConsole("END"))
-                        restoringAccount(userName)
+                        restoringPassword(userName)
                         print(functions.formattingConsole("GREEN, BOLD"))
                         print("You have successfully restored your account!")
                         print("In 5 seconds you will be redirected to log in window.")
@@ -236,7 +236,7 @@ def forgotPassword():
             print(functions.formattingConsole("END"))
             if secretTries == 0:
                 print(functions.formattingConsole("RED, BOLD"))
-                print(f"You have failed to verify your password. Try again or make new account in 5 seconds.")
+                print(f"You have failed to verify your secret code. Try again or make new account in 5 seconds.")
                 print(functions.formattingConsole("END"))
                 time.sleep(7)
                 return False
@@ -247,3 +247,48 @@ def forgotPassword():
         time.sleep(5)
         return False
 
+
+def restoringPassword(userName: str):
+    while True:
+        containsNumber = False
+        password = getpass.getpass("Enter password - at least 8 characters, 1 special character and 1 number: ")
+
+        for i in password:
+            if ord(i) >= 48 and ord(i) <= 57:
+                containsNumber = True
+
+        if checkForSpecial(password) == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one special character!")
+            print(functions.formattingConsole("END"))
+        elif len(password) < 8:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must be at least 8 characters long!")
+            print(functions.formattingConsole("END"))
+        elif containsNumber == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one number!")
+            print(functions.formattingConsole("END"))
+        else:
+            break
+
+    hashedPassword = hasher.hash(password)
+
+    with open("users.txt", "r") as file:
+        allLines = file.readlines()
+
+        counter = 0
+        for line in allLines:
+            name = line.split(" ")[0]
+            if name == userName:
+                newLine = allLines[counter]
+                break
+            else:
+                counter += 1
+
+    newLine = newLine.split(" ")
+    newLine[1] = hashedPassword
+    allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
+
+    with open("users.txt", "w") as file:
+        file.writelines(allLines)
