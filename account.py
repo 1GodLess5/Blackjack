@@ -1,6 +1,7 @@
-# password creating
+# password and secret creating
 import getpass
 from passlib.hash import bcrypt
+import uuid
 # functions clear and time.sleep()
 import os
 import time
@@ -12,6 +13,16 @@ hasher = bcrypt.using(rounds=13)
 
 
 def account():
+    """
+    Main function.
+    :return: Username and user's balance
+    """
+    # if the files don't exist, create them
+    with open("users.txt", "w"):
+        pass
+    with open("secrets.txt", "w"):
+        pass
+
     hasAccount = isAccount()
     if hasAccount == 1:  # user has account
         userName, usersBalance = logIn()
@@ -21,7 +32,7 @@ def account():
             # reminding user of the rules
             functions.rulesConfirmation()
             return userName, usersBalance
-    else:  # needs to create an account
+    elif hasAccount == 2:  # needs to create an account
         # verifying user's age before making an account
         ageChecker.main()
         # creating an account
@@ -30,8 +41,12 @@ def account():
         functions.rulesConfirmation()
         # getting user's balance to play with
         usersBalance = functions.enterBalance()  # testing variables: usersBalance = 500, usersBet = 25
-        functions.writeBalance(userName, usersBalance)
+        functions.writeBalance(userName, usersBalance, False)
         return userName, usersBalance
+    else:
+        forgotPassword()
+        account()
+
 
 
 def isAccount():
@@ -51,8 +66,8 @@ def isAccount():
 
     while True:
         try:
-            hasAccount = int(input("1) I have an account.\n2) I want to create an account.\n"))
-            if hasAccount < 1 or hasAccount > 2:
+            hasAccount = int(input("1) I have an account.\n2) I want to create an account.\n3) I forgot my password.\n"))
+            if hasAccount < 1 or hasAccount > 3:
                 print(functions.formattingConsole("RED, BOLD"))
                 print("Invalid input!")
                 print(functions.formattingConsole("END"))
@@ -125,6 +140,9 @@ def createAccount():
     with open("users.txt", "a") as file:
         file.write(user + " " + str(hashedPassword) + "\n")
 
+    os.system("clear")
+    createSecret(user)
+
     print(functions.formattingConsole("GREEN, BOLD"))
     print("You have successfully created new account, you will be redirected to rules confirmation in 5 seconds!")
     print(functions.formattingConsole("END"))
@@ -196,3 +214,135 @@ def logIn():
         print(functions.formattingConsole("END"))
         time.sleep(5)
         return None, None
+
+def forgotPassword():
+    """
+    If user forgots his password.
+    :return: Bool -> True: Successfully restored
+    """
+    userExists = False
+
+    userName = input("Enter your name: ")
+    with open("users.txt", "r") as file:
+        for line in file:
+            name = line.split(" ")[0]
+            if name == userName:
+                userExists = True
+
+    secretTries = 3
+    if userExists == True:
+        while secretTries > 0:
+            secret = getpass.getpass("Enter your secret code: ")
+
+            with open("secrets.txt", "r") as file:
+                for line in file:
+                    splittedLine = line.split(" ")
+                    name = splittedLine[0]
+                    secretCheck = splittedLine[1].strip("\n")
+
+                    if name == userName and hasher.verify(secret, secretCheck) == True:
+                        print(functions.formattingConsole("GREEN, BOLD"))
+                        print("You have successfully entered the secret code!")
+                        print(functions.formattingConsole("END"))
+                        restoringPassword(userName)
+                        print(functions.formattingConsole("GREEN, BOLD"))
+                        print("You have successfully restored your account!")
+                        print("In 5 seconds you will be redirected to log in window.")
+                        print(functions.formattingConsole("END"))
+                        time.sleep(7)
+                        return True
+            # if the "with" statement which goes through the file fails, one attempt gets down
+            secretTries -= 1
+            print(functions.formattingConsole("RED, BOLD"))
+            print(f"Incorrect secret code, please try again. Remaining tries: {secretTries}")
+            print(functions.formattingConsole("END"))
+            if secretTries == 0:
+                print(functions.formattingConsole("RED, BOLD"))
+                print(f"You have failed to verify your secret code. Try again or make new account in 5 seconds.")
+                print(functions.formattingConsole("END"))
+                time.sleep(7)
+                return False
+    else:
+        print(functions.formattingConsole("RED, BOLD"))
+        print("This username does not exist.")
+        print(functions.formattingConsole("END"))
+        time.sleep(5)
+        return False
+
+
+def restoringPassword(userName: str):
+    """
+    Creates new password and updates "users.txt"
+    :param userName: User's name
+    :return: None
+    """
+    while True:
+        containsNumber = False
+        password = getpass.getpass("Enter new password - at least 8 characters, 1 special character and 1 number: ")
+
+        for i in password:
+            if ord(i) >= 48 and ord(i) <= 57:
+                containsNumber = True
+
+        if checkForSpecial(password) == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one special character!")
+            print(functions.formattingConsole("END"))
+        elif len(password) < 8:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must be at least 8 characters long!")
+            print(functions.formattingConsole("END"))
+        elif containsNumber == False:
+            print(functions.formattingConsole("RED, BOLD"))
+            print("Password must contain at least one number!")
+            print(functions.formattingConsole("END"))
+        else:
+            break
+
+    hashedPassword = hasher.hash(password)
+
+    with open("users.txt", "r") as file:
+        allLines = file.readlines()
+
+        counter = 0
+        for line in allLines:
+            name = line.split(" ")[0]
+            if name == userName:
+                newLine = allLines[counter]
+                break
+            else:
+                counter += 1
+
+    newLine = newLine.split(" ")
+    newLine[1] = hashedPassword
+    allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2]
+
+    with open("users.txt", "w") as file:
+        file.writelines(allLines)
+
+def createSecret(userName: str):
+    """
+    Creates secret code to restore password.
+    :param userName: Users's name
+    :return: None
+    """
+    secretCode = uuid.uuid4()
+    secretCode = str(secretCode)
+
+    print(functions.formattingConsole("BOLD, YELLOW"))
+    print(f"Dear {userName} it's important to emphasize that the secret code you're about to receive")
+    print("is crucial for restoring your password if needed,")
+    print("so please make sure to save it in a secure place and avoid sharing it with anyone.")
+    print("This code ensures you have uninterrupted access to your game.")
+    print(functions.formattingConsole("END"))
+    time.sleep(5)
+    print(functions.formattingConsole("GREEN, BOLD"))
+    print(f"Your secret code:\n{secretCode}")
+    print(functions.formattingConsole("END"))
+    input("Press enter when you have saved your code.\n")
+
+    hashedSecretCode = hasher.hash(secretCode)
+    with open("secrets.txt", "a") as file:
+        file.write(userName + " " + hashedSecretCode + "\n")
+
+    os.system("clear")

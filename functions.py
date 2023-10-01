@@ -60,7 +60,7 @@ def firstScreen():
     :return: None
     """
     gameLogo()
-    input("Press any key to continue.")
+    input("Press enter to continue.")
 
 
 def gameLogo():
@@ -228,7 +228,7 @@ def printCardsFromList(cardList: list):
     return stringToPrint
 
 
-def writeBalance(userName: str, usersBalance: float):
+def writeBalance(userName: str, usersBalance: float, updating: bool):
     """
     Writes User's Balance into "users.txt" file.
     :param userName: Username
@@ -252,7 +252,11 @@ def writeBalance(userName: str, usersBalance: float):
         newLine.append(str(usersBalance))
     else:
         newLine[2] = str(usersBalance)
-    allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
+
+    if updating == True:
+        allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2]
+    else:
+        allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
 
     with open("users.txt", "w") as file:
         file.writelines(allLines)
