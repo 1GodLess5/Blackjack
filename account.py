@@ -17,15 +17,11 @@ def account():
     Main function.
     :return: Username and user's balance
     """
-    # if the files don't exist, create them
-    with open("users.txt", "w"):
-        pass
-    with open("secrets.txt", "w"):
-        pass
 
     hasAccount = isAccount()
     if hasAccount == 1:  # user has account
         userName, usersBalance = logIn()
+
         if userName == None:
             account()
         else:
@@ -188,7 +184,7 @@ def logIn():
                     splittedLine = line.split(" ")
                     name = splittedLine[0]
                     passwordCheck = splittedLine[1]
-                    balance = splittedLine[2]
+                    balance = splittedLine[2].strip("\n")
 
                     if name == userName and hasher.verify(password, passwordCheck) == True:
                         print(functions.formattingConsole("GREEN, BOLD"))
