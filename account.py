@@ -27,6 +27,9 @@ def account():
         else:
             # reminding user of the rules
             functions.rulesConfirmation()
+            print(userName + " " + usersBalance)
+            print(type(userName))
+            print(type(usersBalance))
             return userName, usersBalance
     elif hasAccount == 2:  # needs to create an account
         # verifying user's age before making an account
@@ -38,11 +41,11 @@ def account():
         # getting user's balance to play with
         usersBalance = functions.enterBalance()  # testing variables: usersBalance = 500, usersBet = 25
         functions.writeBalance(userName, usersBalance, False)
+        print(userName + " " + usersBalance)
         return userName, usersBalance
     else:
         forgotPassword()
         account()
-
 
 
 def isAccount():
