@@ -253,10 +253,7 @@ def writeBalance(userName: str, usersBalance: float, updating: bool):
     else:
         newLine[2] = str(usersBalance)
 
-    if updating == True:
-        allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2]
-    else:
-        allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
+    allLines[counter] = newLine[0] + " " + newLine[1].strip("\n") + " " + newLine[2] + "\n"
 
     with open("users.txt", "w") as file:
         file.writelines(allLines)
