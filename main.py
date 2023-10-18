@@ -1,4 +1,5 @@
 import os
+import time
 import functions
 import dealingCards
 import account
@@ -10,7 +11,15 @@ import account
 # welcoming screen
 functions.firstScreen()
 # account management
-userName, usersBalance = account.account()
+while True:
+    try:
+        userName, usersBalance = account.account()
+    except TypeError:
+        print(functions.formattingConsole("BOLD, YELLOW"))
+        print("An error occurred. Please try to log in again.")
+        time.sleep(5)
+        continue
+    break
 usersBalance = float(usersBalance)
 # getting user's bet for this round
 os.system("clear")
