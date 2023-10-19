@@ -228,7 +228,7 @@ def printCardsFromList(cardList: list):
     return stringToPrint
 
 
-def writeBalance(userName: str, usersBalance: float, updating: bool):
+def writeBalance(userName: str, usersBalance: float):
     """
     Writes User's Balance into "users.txt" file.
     :param userName: Username
