@@ -6,6 +6,7 @@ __pycache__/
 # My files
 users.txt
 secrets.txt
+secrets_mine.txt
 
 # C extensions
 *.so
