@@ -12,8 +12,9 @@ import dealingCards
 
 def main(userName: str, usersBalance: float):
     # TODO match of the printMenu() decision\
+    balanceMenu = 0
     while True:
-        menu = printMenu()
+        menu = printMenu(1)
         match menu:
             case 1:
                 os.system("clear")
@@ -27,19 +28,30 @@ def main(userName: str, usersBalance: float):
                 functions.writeBalance(userName, usersBalance)
                 input("Press enter to continue.")
             case 2:
-                pass
+                while balanceMenu != 4:
+                    balanceMenu = printMenu(2)
 
-def printMenu():
+
+def printMenu(whichMenu: int):
     os.system("clear")
     functions.gameLogo()
     print(functions.formattingConsole("BLUE, BOLD"))
-    print("MENU:")
-    print(functions.formattingConsole("END"))
-    print(functions.formattingConsole("YELLOW"))
-    print("1 - Play Game")
-    print("2 - My Balance")
-    print("3 - Read Rules")
-    print("4 - Exit Game")
+    if whichMenu is 1:
+        print("MENU:")
+        print(functions.formattingConsole("END"))
+        print(functions.formattingConsole("YELLOW"))
+        print("1 - Play Game")
+        print("2 - My Balance")
+        print("3 - Read Rules")
+        print("4 - Exit Game")
+    else:
+        print("BALANCE MENU:")
+        print(functions.formattingConsole("END"))
+        print(functions.formattingConsole("YELLOW"))
+        print("1 - See My Balance")
+        print("2 - Top Up My Balance")
+        print("3 - Withdraw")
+        print("4 - Back To Main Menu")
     print(functions.formattingConsole("END"))
 
     while True:
@@ -59,3 +71,31 @@ def printMenu():
         break
 
     return usersDecision
+
+def balanceStats(userName: str, usersBalance: float, usersDecision: int):
+    match usersDecision:
+        case 1:
+            os.system("clear")
+            functions.gameLogo()
+            print(functions.formattingConsole("YELLOW"))
+            print(f"Your balance is: {usersBalance} €")
+            print(functions.formattingConsole("END"))
+            input("Press enter to continue.")
+        case 2:
+            os.system("clear")
+            functions.gameLogo()
+            print(functions.formattingConsole("YELLOW"))
+            print(f"Your current balance is: {usersBalance} €")
+            print(functions.formattingConsole("END"))
+
+            addMoney = input("How much € you want to top up?\t")
+            usersBalance += addMoney
+            functions.writeBalance(userName, usersBalance)
+
+            print(functions.formattingConsole("BOLD, GREEN"))
+            print("You have successfully topped up your balance!")
+            print(functions.formattingConsole("END"))
+            print(functions.formattingConsole("YELLOW"))
+            print(f"Your new balance is: {usersBalance} €")
+            print(functions.formattingConsole("END"))
+            input("Press enter to continue.")
