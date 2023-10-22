@@ -9,6 +9,7 @@ import dealingCards
 #                            2) Balance (> see my balance, top out my balance, withdraw)
 #                            3) Exit Game
 
+# TODO IN CASE 3 IN BALANCESTATS
 
 def main(userName: str, usersBalance: float):
     # TODO match of the printMenu() decision\
@@ -30,6 +31,9 @@ def main(userName: str, usersBalance: float):
             case 2:
                 while balanceMenu != 4:
                     balanceMenu = printMenu(2)
+                    usersBalance = balanceStats(userName, usersBalance, balanceMenu)
+                    print(type(usersBalance))
+                    input()
 
 
 def printMenu(whichMenu: int):
@@ -81,6 +85,8 @@ def balanceStats(userName: str, usersBalance: float, usersDecision: int):
             print(f"Your balance is: {usersBalance} €")
             print(functions.formattingConsole("END"))
             input("Press enter to continue.")
+
+            return usersBalance
         case 2:
             os.system("clear")
             functions.gameLogo()
@@ -88,7 +94,7 @@ def balanceStats(userName: str, usersBalance: float, usersDecision: int):
             print(f"Your current balance is: {usersBalance} €")
             print(functions.formattingConsole("END"))
 
-            addMoney = input("How much € you want to top up?\t")
+            addMoney = float(input("How much € you want to top up?\t"))
             usersBalance += addMoney
             functions.writeBalance(userName, usersBalance)
 
@@ -99,3 +105,28 @@ def balanceStats(userName: str, usersBalance: float, usersDecision: int):
             print(f"Your new balance is: {usersBalance} €")
             print(functions.formattingConsole("END"))
             input("Press enter to continue.")
+            return usersBalance
+        case 3:
+            os.system("clear")
+            functions.gameLogo()
+            print(functions.formattingConsole("YELLOW"))
+            print(f"Your current balance is: {usersBalance} €")
+            print(functions.formattingConsole("END"))
+
+            withdrawMoney = float(input("How much € you want to withdraw?\t"))
+
+            if withdrawMoney > usersBalance:
+                # TODO FINISH THIS CASE, ADD ERROR HANDLING TO INPUTS
+            usersBalance += addMoney
+            functions.writeBalance(userName, usersBalance)
+
+            print(functions.formattingConsole("BOLD, GREEN"))
+            print("You have successfully topped up your balance!")
+            print(functions.formattingConsole("END"))
+            print(functions.formattingConsole("YELLOW"))
+            print(f"Your new balance is: {usersBalance} €")
+            print(functions.formattingConsole("END"))
+            input("Press enter to continue.")
+            return usersBalance
+        case 4:
+            return usersBalance
